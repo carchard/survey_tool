@@ -10,7 +10,7 @@
          "type": "1-10"},
         {"text": "Are you working from home today?",
          "type": "yes_no"},
-        {"text": "Respond to the following statemetn: this survey will provide helpful results for our team.",
+        {"text": "Respond to the following statement: this survey will provide helpful results for our team.",
          "type": "disagree_agree"},
         {"text": "Any other comments?",
          "type": "long_answer_optional"}
