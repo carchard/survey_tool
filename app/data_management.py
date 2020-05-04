@@ -3,6 +3,10 @@ import csv
 import json
 
 def init_results():
+    """
+    create an empty csv with just a header row that contains each of the 
+    questions.
+    """
     with open(json_fname, 'rb') as f:
         survey_form = json.load(f)
 
@@ -14,11 +18,31 @@ def init_results():
 
 
 def record_form(form, questions, email_list=[]):
-    row = {q['text']: form["q{}".format(idx)].data for idx, q in enumerate(questions)}
-    with open(results_fname, 'a') as f:
+    """
+    process the data from the latest form submission and write it into the csv
+    that's being used to record responses. Each time a new form is submitted
+    the csv will be rewritten with new orders to prevent analysis of when 
+    answers were submitted.
+    """
+    answers = [{q['text']: form["q{}".format(idx)].data for idx, q in enumerate(questions)}]
+
+    with open(results_fname, 'r') as f:
+        r = csv.DictReader(f, fieldnames=fieldnames)
+        next(r)
+        for row in r:
+            answers.append(row)
+
+    random.shuffle(answers)
+    with open(results_fname, 'w') as f:
+        # rewrite the header
+        w = csv.writer(f)
+        w.writerow([q['text'] for q in questions])
+
+        # write the shuffled answers
         w = csv.DictWriter(f, fieldnames=[q['text'] for q in questions])
-        w.writerow(row)
-    
+        for row in answers:
+            w.writerow(row)
+
 
 def show_results():
     """
