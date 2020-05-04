@@ -1,0 +1,14 @@
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title>Anonymous Survey Tool</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Anonymous Survey Tool: <a href="/index">Answer Survey</a> | <a href="/results">See Results</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

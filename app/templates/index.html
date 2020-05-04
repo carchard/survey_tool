@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <h1>{{title}}</h1>
+    {% if questions %}
+    <form action="" method="post" novalidate>
+        {{form.hidden_tag()}}
+        {% for q in questions %}
+            {% set attr_idx = loop.index-1 %}
+        <div>
+            <h1>Question {{loop.index}}</h1>
+            <div style="width: 50%">
+                {{q.get('text', '')}}
+            </div>
+            <div style="width: 75%">
+                {{form["q{}".format(loop.index-1)]()}}
+                {% for error in form["q{}".format(attr_idx)].errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            </div>
+            {% endfor %}
+        </div><br>
+        {% endfor %}
+        {{form.submit()}}
+    </form>
+    {% else %}
+        <div>No questions provided</div>
+    {% endif %}
+</body>
+{% endblock %}

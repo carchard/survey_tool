@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    {% if results_list|length > 0 %}
+        <h1>{{title}} -- Results</h1>
+        {% for res in results_list %}
+            <h1>Question {{loop.index}}</h1>
+            {{res.get('text', '')}}<br>
+            {% if res['type'] == "short_answer" or res['type'] == "long_answer" or res['type'] == "long_answer_optional" %}
+            <div style="overflow-y: scroll; height:250px; border:4px solid black;">
+                {% for dat in res['data'] %}
+                {{dat}}<br><br>
+                {% endfor %}
+            </div>
+            {% elif res['type'] == "yes_no" %}
+            <div style="border:4px solid black;">
+                <h2># Yes: {{res['count_yes']}}</h2>
+                <h2># No: {{res['count_no']}}</h2>
+            </div>
+            {% elif res['avg'] != None %}
+            <div style="border:4px solid black;">
+                <h2>Average Value: {{res['avg']}}</h2>
+                <h2>Minimum Value: {{res['min']}}</h2>
+                <h2>Maximum Value: {{res['max']}}</h2>
+            </div>
+            {% endif %}
+        </div><br>
+        {% endfor %}
+    {% else %}
+        <div>No responses have been submitted for survey "{{title}}" yet!</div>
+    {% endif %}
+</body>
+{% endblock %}
